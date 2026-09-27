@@ -15,6 +15,8 @@ Item {
     property string regularFont: ""
     property string boldFont: ""
     property alias passwordText: passwordField.text
+    property bool capsLockOn: typeof keyboard !== "undefined" && typeof keyboard.capsLock !== "undefined" ? keyboard.capsLock : false
+    property bool numLockOn: typeof keyboard !== "undefined" && typeof keyboard.numLock !== "undefined" ? keyboard.numLock : false
     signal loginRequested()
     signal userSelectionRequested()
 
@@ -232,6 +234,18 @@ Item {
                         focus: loginState.visible
                         enabled: !loginScreen.isLoggingIn
 
+                        Keys.onPressed: function(event) {
+                            if (event.key === Qt.Key_CapsLock) {
+                                loginScreen.capsLockOn = !loginScreen.capsLockOn;
+                            } else if (event.key === Qt.Key_NumLock) {
+                                loginScreen.numLockOn = !loginScreen.numLockOn;
+                            } else if (event.modifiers & Qt.CapsLockModifier) {
+                                loginScreen.capsLockOn = true;
+                            } else {
+                                loginScreen.capsLockOn = false;
+                            }
+                        }
+
                         background: Rectangle {
                             color: loginScreen.surfaceColor
                             radius: 18
@@ -280,29 +294,37 @@ Item {
                     }
                 }
 
-                Item {
-                    id: numLockIndicator
-                    Layout.preferredWidth: 116
-                    Layout.preferredHeight: 28
+                RowLayout {
                     Layout.alignment: Qt.AlignHCenter
+                    spacing: 8
 
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: height / 2
-                        color: loginScreen.accentColor
-                        opacity: typeof keyboard !== "undefined" && typeof keyboard.numLock !== "undefined" && keyboard.numLock ? 0.18 : 0
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
-                    }
+                    Repeater {
+                        model: [
+                            { label: "NUM", active: loginScreen.numLockOn },
+                            { label: "CAPS", active: loginScreen.capsLockOn }
+                        ]
 
-                    Text {
-                        anchors.centerIn: parent
-                        text: "NUM LOCK"
-                        color: loginScreen.accentColor
-                        font.pixelSize: 11
-                        font.family: loginScreen.regularFont
-                        font.weight: Font.Bold
-                        opacity: typeof keyboard !== "undefined" && typeof keyboard.numLock !== "undefined" && keyboard.numLock ? 1 : 0
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        delegate: Rectangle {
+                            Layout.preferredWidth: 112
+                            Layout.preferredHeight: 32
+                            radius: 10
+                            color: modelData.active ? Qt.rgba(loginScreen.accentColor.r, loginScreen.accentColor.g, loginScreen.accentColor.b, 0.2) : Qt.rgba(1, 1, 1, 0.06)
+                            border.width: modelData.active ? 1 : 0
+                            border.color: loginScreen.accentColor
+                            opacity: loginScreen.isLoggingIn ? 0.5 : 1
+
+                            Behavior on color { ColorAnimation { duration: 180 } }
+                            Behavior on border.width { NumberAnimation { duration: 180 } }
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: modelData.label
+                                color: modelData.active ? loginScreen.accentColor : Qt.rgba(1, 1, 1, 0.38)
+                                font.pixelSize: 11
+                                font.family: loginScreen.regularFont
+                                font.weight: Font.Bold
+                            }
+                        }
                     }
                 }
 
