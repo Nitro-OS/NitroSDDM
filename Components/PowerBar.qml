@@ -1,15 +1,27 @@
 import QtQuick
 
-Row {
+Rectangle {
     id: powerBarRoot
-    spacing: 20
-    height: 30
+    height: 44
+    width: powerContent.childrenRect.width + 32
+    visible: true
+    radius: height / 2
+    color: powerBarRoot.surfaceColor
+    border.width: 1
+    border.color: powerBarRoot.accentColor
 
     property color textColor: "white"
+    property color surfaceColor: "#121a12"
+    property color accentColor: "#7fbf7f"
 
-    FontLoader { id: iconFont; source: "../assets/fonts/MaterialDesignIcons.ttf" }
+    FontLoader { id: iconFont; source: "../Assets/fonts/MaterialDesignIcons.ttf" }
 
     Row {
+        id: powerContent
+        anchors.centerIn: parent
+        spacing: 20
+
+        Row {
         id: batteryRow
         spacing: 5
         visible: typeof battery !== "undefined" && typeof battery.percent !== "undefined"
@@ -41,9 +53,9 @@ Row {
                 batteryIcon.text = battery.charging ? "󱐋" : "󰁹"
             }
         }
-    }
+        }
 
-    Text {
+        Text {
         text: (typeof keyboard !== "undefined" && keyboard.layouts[keyboard.currentLayout]) ? keyboard.layouts[keyboard.currentLayout].shortName : "US"
         color: textColor
         font.pixelSize: 14
@@ -57,9 +69,9 @@ Row {
                 keyboard.currentLayout = (keyboard.currentLayout + 1) % keyboard.layouts.length
             }
         }
-    }
+        }
 
-    Text {
+        Text {
         text: "󰤄"
         color: textColor
         font.pixelSize: 20
@@ -69,9 +81,9 @@ Row {
             anchors.fill: parent
             onClicked: sddm.suspend()
         }
-    }
+        }
 
-    Text {
+        Text {
         text: "󰑐"
         color: textColor
         font.pixelSize: 20
@@ -81,9 +93,9 @@ Row {
             anchors.fill: parent
             onClicked: sddm.reboot()
         }
-    }
+        }
 
-    Text {
+        Text {
         text: "󰐥"
         color: textColor
         font.pixelSize: 20
@@ -92,6 +104,7 @@ Row {
         MouseArea {
             anchors.fill: parent
             onClicked: sddm.powerOff()
+            }
         }
     }
 }
