@@ -14,8 +14,8 @@ Rectangle {
     signal selectionRequested()
 
     width: 260
-    height: 36
-    radius: 18
+    height: 40
+    radius: 20
     border.width: 1
     visible: sessionSelector.loginVisible && sessionsModel && sessionsModel.count > 1
     color: sessionClickArea.pressed ? sessionSelector.surfaceVariantColor : sessionSelector.surfaceColor
