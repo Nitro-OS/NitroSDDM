@@ -21,6 +21,7 @@ Item {
         backgroundSource: lockScreen.backgroundSource
         baseAccent: lockScreen.accentColor
         fontFamily: lockScreen.fontFamily
+        reveal: lockScreen.visible && lockScreen.contentReady
         opacity: lockScreen.contentReady ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 300 } }
     }
@@ -34,7 +35,8 @@ Item {
             horizontalCenter: mainClock.horizontalCenter
             topMargin: 8
         }
-        opacity: 0.5
+        opacity: lockScreen.visible && lockScreen.contentReady ? 0.5 : 0
+        Behavior on opacity { NumberAnimation { duration: 350 } }
     }
 
     MouseArea {
