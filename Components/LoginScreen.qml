@@ -70,10 +70,25 @@ Item {
         visible: false
         opacity: visible ? 1 : 0
         z: 10
-        Behavior on opacity { NumberAnimation { duration: 400 } }
+        property real entryProgress: 0
+        Behavior on opacity { NumberAnimation { duration: 220 } }
 
         onVisibleChanged: {
-            if (visible) loginScreen.focusPassword();
+            if (visible) {
+                entryProgress = 0;
+                loginEntrance.restart();
+                loginScreen.focusPassword();
+            }
+        }
+
+        NumberAnimation {
+            id: loginEntrance
+            target: loginState
+            property: "entryProgress"
+            from: 0
+            to: 1
+            duration: 320
+            easing.type: Easing.OutCubic
         }
 
         property bool isError: false
@@ -92,12 +107,13 @@ Item {
             width: 500
             height: 430
             x: (parent.width - width) / 2
-            y: (parent.height - 430) / 2
+            y: (parent.height - 430) / 2 + (1 - loginState.entryProgress) * 24
+            scale: 0.96 + loginState.entryProgress * 0.04
+            opacity: loginState.entryProgress
             color: "transparent"
             radius: 32
 
             Behavior on color { ColorAnimation { duration: 200 } }
-            Behavior on y { NumberAnimation { duration: 300; easing.type: Easing.OutBack } }
 
             ColumnLayout {
                 anchors.fill: parent
