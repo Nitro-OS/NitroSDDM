@@ -252,6 +252,8 @@ Rectangle {
             rightMargin: 40
         }
         textColor: container.extractedAccent
+        surfaceColor: container.surfaceColor
+        accentColor: container.extractedAccent
         z: 100
         opacity: container.uiReady ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 300 } }
@@ -274,20 +276,17 @@ Rectangle {
         onActivated: container.doLogin()
     }
 
-    Text {
-        id: dateText
-        text: Qt.formatDateTime(new Date(), "dddd, MMMM d")
-        color: container.extractedAccent
-        font.pixelSize: 16
-        font.family: activeFontRegular
+    DatePill {
         anchors {
             top: parent.top
             left: parent.left
-            topMargin: 38
-            leftMargin: 60
+            topMargin: 28
+            leftMargin: 40
         }
-        opacity: container.uiReady ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: 300 } }
+        accentColor: container.extractedAccent
+        surfaceColor: container.surfaceColor
+        fontFamily: container.activeFontRegular
+        contentReady: container.uiReady
     }
 
     LockScreen {
