@@ -13,6 +13,7 @@ Item {
     property color smartHoursColor: defaultHoursColor
     property color smartMinutesColor: defaultMinutesColor
     property string timeStr: ""
+    property bool reveal: false
 
     function updateTime() {
         var date = new Date();
@@ -58,14 +59,24 @@ Item {
     }
 
     Column {
+        id: clockContent
         anchors.centerIn: parent
         width: 560
         spacing: -80
+        opacity: clock.reveal ? 1 : 0
+        scale: clock.reveal ? 1 : 0.94
+        y: clock.reveal ? 0 : 20
+
+        Behavior on opacity { NumberAnimation { duration: 450; easing.type: Easing.OutCubic } }
+        Behavior on scale { NumberAnimation { duration: 600; easing.type: Easing.OutBack } }
+        Behavior on y { NumberAnimation { duration: 600; easing.type: Easing.OutCubic } }
 
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.horizontalCenterOffset: 0
             spacing: -16
+                opacity: clock.reveal ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
             Text {
                 text: clock.timeStr.charAt(0)
@@ -93,6 +104,8 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.horizontalCenterOffset: 0
             spacing: -16
+                opacity: clock.reveal ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
 
             Text {
                 text: clock.timeStr.charAt(2)
