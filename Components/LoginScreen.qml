@@ -88,14 +88,13 @@ Item {
         Rectangle {
             id: loginCard
             width: 500
-            height: 430 + (numLockIndicator.visible ? 40 : 0)
+            height: 430
             x: (parent.width - width) / 2
             y: (parent.height - 430) / 2
             color: "transparent"
             radius: 32
 
             Behavior on color { ColorAnimation { duration: 200 } }
-            Behavior on height { NumberAnimation { duration: 300; easing.type: Easing.InOutQuad } }
             Behavior on y { NumberAnimation { duration: 300; easing.type: Easing.OutBack } }
 
             ColumnLayout {
@@ -281,17 +280,30 @@ Item {
                     }
                 }
 
-                Text {
+                Item {
                     id: numLockIndicator
-                    text: "Num Lock is on"
-                    color: loginScreen.accentColor
-                    font.pixelSize: 14
-                    font.family: loginScreen.regularFont
-                    font.weight: Font.Medium
+                    Layout.preferredWidth: 116
+                    Layout.preferredHeight: 28
                     Layout.alignment: Qt.AlignHCenter
-                    visible: typeof keyboard !== "undefined" && typeof keyboard.numLock !== "undefined" ? keyboard.numLock : false
-                    opacity: visible ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: height / 2
+                        color: loginScreen.accentColor
+                        opacity: typeof keyboard !== "undefined" && typeof keyboard.numLock !== "undefined" && keyboard.numLock ? 0.18 : 0
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "NUM LOCK"
+                        color: loginScreen.accentColor
+                        font.pixelSize: 11
+                        font.family: loginScreen.regularFont
+                        font.weight: Font.Bold
+                        opacity: typeof keyboard !== "undefined" && typeof keyboard.numLock !== "undefined" && keyboard.numLock ? 1 : 0
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                    }
                 }
 
                 Item { Layout.fillHeight: true }
