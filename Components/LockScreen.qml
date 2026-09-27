@@ -16,6 +16,7 @@ Item {
     Behavior on opacity { NumberAnimation { duration: 400 } }
 
     Clock {
+        id: mainClock
         anchors.centerIn: parent
         backgroundSource: lockScreen.backgroundSource
         baseAccent: lockScreen.accentColor
@@ -29,9 +30,9 @@ Item {
         color: lockScreen.textColor
         font.pixelSize: 16
         anchors {
-            bottom: parent.bottom
-            horizontalCenter: parent.horizontalCenter
-            bottomMargin: 100
+            top: mainClock.bottom
+            horizontalCenter: mainClock.horizontalCenter
+            topMargin: 8
         }
         opacity: 0.5
     }
