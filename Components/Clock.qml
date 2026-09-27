@@ -70,7 +70,7 @@ Item {
                 color: clock.smartHoursColor
                 font.pixelSize: 340
                 font.family: clock.fontFamily
-                font.weight: Font.Medium
+                font.weight: Font.Bold
                 width: 180
                 horizontalAlignment: Text.AlignHCenter
                 antialiasing: true
@@ -80,20 +80,11 @@ Item {
                 color: clock.smartHoursColor
                 font.pixelSize: 340
                 font.family: clock.fontFamily
-                font.weight: Font.Medium
+                font.weight: Font.Bold
                 width: 260
                 horizontalAlignment: Text.AlignHCenter
                 antialiasing: true
             }
-        }
-
-        Rectangle {
-            width: 360
-            height: 3
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: clock.smartHoursColor
-            opacity: 0.7
-            radius: 2
         }
 
         Row {
@@ -106,7 +97,7 @@ Item {
                 color: clock.smartMinutesColor
                 font.pixelSize: 340
                 font.family: clock.fontFamily
-                font.weight: Font.Medium
+                font.weight: Font.Bold
                 width: 180
                 horizontalAlignment: Text.AlignHCenter
                 antialiasing: true
@@ -116,7 +107,7 @@ Item {
                 color: clock.smartMinutesColor
                 font.pixelSize: 340
                 font.family: clock.fontFamily
-                font.weight: Font.Medium
+                font.weight: Font.Bold
                 width: 260
                 horizontalAlignment: Text.AlignHCenter
                 antialiasing: true
