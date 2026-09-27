@@ -15,8 +15,8 @@ Item {
     property string regularFont: ""
     property string boldFont: ""
     property alias passwordText: passwordField.text
-    property bool capsLockOn: typeof keyboard !== "undefined" && typeof keyboard.capsLock !== "undefined" ? keyboard.capsLock : false
-    property bool numLockOn: typeof keyboard !== "undefined" && typeof keyboard.numLock !== "undefined" ? keyboard.numLock : false
+    property bool capsLockOn: false
+    property bool numLockOn: false
     signal loginRequested()
     signal userSelectionRequested()
 
@@ -24,6 +24,22 @@ Item {
 
     function focusPassword() {
         passwordField.forceActiveFocus();
+    }
+
+    function syncKeyboardState() {
+        if (typeof keyboard === "undefined") return;
+        if (typeof keyboard.capsLock !== "undefined") loginScreen.capsLockOn = keyboard.capsLock === true;
+        if (typeof keyboard.numLock !== "undefined") loginScreen.numLockOn = keyboard.numLock === true;
+    }
+
+    function updateLockState(event) {
+        if (event.key === Qt.Key_CapsLock) {
+            loginScreen.capsLockOn = !loginScreen.capsLockOn;
+        } else if (event.key === Qt.Key_NumLock) {
+            loginScreen.numLockOn = !loginScreen.numLockOn;
+        } else {
+            loginScreen.capsLockOn = (event.modifiers & Qt.CapsLockModifier) !== 0;
+        }
     }
 
     function showError() {
@@ -77,6 +93,7 @@ Item {
             if (visible) {
                 entryProgress = 0;
                 loginEntrance.restart();
+                loginScreen.syncKeyboardState();
                 loginScreen.focusPassword();
             }
         }
@@ -251,15 +268,7 @@ Item {
                         enabled: !loginScreen.isLoggingIn
 
                         Keys.onPressed: function(event) {
-                            if (event.key === Qt.Key_CapsLock) {
-                                loginScreen.capsLockOn = !loginScreen.capsLockOn;
-                            } else if (event.key === Qt.Key_NumLock) {
-                                loginScreen.numLockOn = !loginScreen.numLockOn;
-                            } else if (event.modifiers & Qt.CapsLockModifier) {
-                                loginScreen.capsLockOn = true;
-                            } else {
-                                loginScreen.capsLockOn = false;
-                            }
+                            loginScreen.updateLockState(event);
                         }
 
                         background: Rectangle {
