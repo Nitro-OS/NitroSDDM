@@ -2,6 +2,8 @@ import QtQuick
 
 Item {
     id: clock
+    width: 560
+    height: 900
 
     property string backgroundSource: ""
     property color defaultHoursColor: "#AED68A"
@@ -57,31 +59,31 @@ Item {
 
     Column {
         anchors.centerIn: parent
-        width: 500
-        spacing: -8
+        width: 560
+        spacing: -80
 
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.horizontalCenterOffset: 0
-            spacing: 8
+            spacing: -16
 
             Text {
                 text: clock.timeStr.charAt(0)
                 color: clock.smartHoursColor
-                font.pixelSize: 340
+                font.pixelSize: 380
                 font.family: clock.fontFamily
                 font.weight: Font.Bold
-                width: 180
+                width: 220
                 horizontalAlignment: Text.AlignHCenter
                 antialiasing: true
             }
             Text {
                 text: clock.timeStr.charAt(1)
                 color: clock.smartHoursColor
-                font.pixelSize: 340
+                font.pixelSize: 380
                 font.family: clock.fontFamily
                 font.weight: Font.Bold
-                width: 260
+                width: 300
                 horizontalAlignment: Text.AlignHCenter
                 antialiasing: true
             }
@@ -90,25 +92,29 @@ Item {
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.horizontalCenterOffset: 0
-            spacing: 8
+            spacing: -16
 
             Text {
                 text: clock.timeStr.charAt(2)
-                color: clock.smartMinutesColor
-                font.pixelSize: 340
+                color: "transparent"
+                style: Text.Outline
+                styleColor: clock.smartMinutesColor
+                font.pixelSize: 380
                 font.family: clock.fontFamily
-                font.weight: Font.Bold
-                width: 180
+                font.weight: Font.Black
+                width: 220
                 horizontalAlignment: Text.AlignHCenter
                 antialiasing: true
             }
             Text {
                 text: clock.timeStr.charAt(3)
-                color: clock.smartMinutesColor
-                font.pixelSize: 340
+                color: "transparent"
+                style: Text.Outline
+                styleColor: clock.smartMinutesColor
+                font.pixelSize: 380
                 font.family: clock.fontFamily
-                font.weight: Font.Bold
-                width: 260
+                font.weight: Font.Black
+                width: 300
                 horizontalAlignment: Text.AlignHCenter
                 antialiasing: true
             }
