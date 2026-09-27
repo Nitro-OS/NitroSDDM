@@ -1,0 +1,43 @@
+import QtQuick
+
+Item {
+    id: lockScreen
+
+    property string backgroundSource: ""
+    property color accentColor: "white"
+    property color textColor: "white"
+    property string fontFamily: ""
+    property bool contentReady: true
+    signal unlockRequested()
+
+    anchors.fill: parent
+    visible: false
+    opacity: visible ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: 400 } }
+
+    Clock {
+        anchors.centerIn: parent
+        backgroundSource: lockScreen.backgroundSource
+        baseAccent: lockScreen.accentColor
+        fontFamily: lockScreen.fontFamily
+        opacity: lockScreen.contentReady ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 300 } }
+    }
+
+    Text {
+        text: "Press any key to unlock"
+        color: lockScreen.textColor
+        font.pixelSize: 16
+        anchors {
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+            bottomMargin: 100
+        }
+        opacity: 0.5
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: lockScreen.unlockRequested()
+    }
+}
