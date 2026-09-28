@@ -16,27 +16,25 @@ Rectangle {
     property bool isLoggingIn: false
 
     Component.onCompleted: {
-        if (typeof userModel !== "undefined" && userModel.lastIndex >= 0) userIndex = userModel.lastIndex;
-        if (typeof sessionModel !== "undefined" && sessionModel.lastIndex >= 0) sessionIndex = sessionModel.lastIndex;
-    }
-
-    function cleanName(name) {
-        if (!name) return "";
-        var s = name.toString();
-        if (s.endsWith("/")) s = s.substring(0, s.length - 1);
-        if (s.indexOf("/") !== -1) s = s.substring(s.lastIndexOf("/") + 1);
-        if (s.indexOf(".desktop") !== -1) s = s.substring(0, s.indexOf(".desktop"));
-        s = s.replace(/[-_]/g, ' ');
-        return s.charAt(0).toUpperCase() + s.slice(1);
+        if (typeof userModel !== "undefined" && userModel.lastIndex >= 0) {
+            userIndex = userModel.lastIndex;
+        }
+        if (typeof sessionModel !== "undefined" && sessionModel.lastIndex >= 0) {
+            sessionIndex = sessionModel.lastIndex;
+        }
     }
 
     function doLogin() {
-        if (!loginScreen.loginVisible || isLoggingIn) return;
+        if (!loginScreen.loginVisible || isLoggingIn) {
+            return;
+        }
 
         var user = "";
         if (typeof userModel !== "undefined" && userModel.count > 0) {
             var idx = container.userIndex;
-            if (idx < 0 || idx >= userModel.count) idx = 0;
+            if (idx < 0 || idx >= userModel.count) {
+                idx = 0;
+            }
 
             var edit = userModel.data(userModel.index(idx, 0), Qt.EditRole);
             var nameRole = userModel.data(userModel.index(idx, 0), Qt.UserRole + 1);
@@ -54,14 +52,18 @@ Rectangle {
             user = firstEdit ? firstEdit.toString() : "";
         }
 
-        if (!user) return;
+        if (!user) {
+            return;
+        }
 
         container.isLoggingIn = true;
         var pass = loginScreen.passwordText;
         var sess = container.sessionIndex;
 
         if (typeof sessionModel !== "undefined") {
-            if (sess < 0 || sess >= sessionModel.count) sess = 0;
+            if (sess < 0 || sess >= sessionModel.count) {
+                sess = 0;
+            }
         } else {
             sess = 0;
         }
@@ -119,7 +121,9 @@ Rectangle {
             ctx.drawImage(backgroundImage, 0, 0, res, res);
             var imgData = ctx.getImageData(0, 0, res, res).data;
 
-            if (!imgData || imgData.length === 0) return;
+            if (!imgData || imgData.length === 0) {
+                return;
+            }
 
             var histogram = new Array(36).fill(0);
             var sampleColors = new Array(36).fill(null);
@@ -148,7 +152,9 @@ Rectangle {
 
                 if (pCol.hsvSaturation > 0.3 && pCol.hsvValue > 0.15) {
                     var h = pCol.hsvHue * 360;
-                    if (h < 0) continue;
+                    if (h < 0) {
+                        continue;
+                    }
 
                     var bIdx = Math.floor(h / 10) % 36;
                     var weight = pCol.hsvSaturation * pCol.hsvValue;
