@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "../Utils/cleanName.js" as Utils
 
 Popup {
     id: selectionPopup
@@ -115,10 +116,10 @@ Popup {
                         if (selectionPopup.sessionMode) {
                             var name = selectionPopup.selectionModel.data(modelIndex, Qt.UserRole + 4);
                             var fallback = selectionPopup.selectionModel.data(modelIndex, Qt.UserRole + 2);
-                            return selectionPopup.cleanName(name ? name : fallback);
+                            return Utils.cleanName(name ? name : fallback);
                         }
 
-                        return selectionPopup.cleanName(selectionPopup.userNameForIndex(index));
+                        return Utils.cleanName(selectionPopup.userNameForIndex(index));
                     }
                     color: isCurrent ? "white" : (hovered ? "#DDDDDD" : "#AAAAAA")
                     font.pixelSize: selectionPopup.sessionMode ? 14 : 15
@@ -137,16 +138,6 @@ Popup {
         Keys.onUpPressed: decrementCurrentIndex()
         Keys.onReturnPressed: selectionPopup.selectIndex(currentIndex)
         Keys.onEnterPressed: selectionPopup.selectIndex(currentIndex)
-    }
-
-    function cleanName(name) {
-        if (!name) return "";
-        var value = name.toString();
-        if (value.endsWith("/")) value = value.substring(0, value.length - 1);
-        if (value.indexOf("/") !== -1) value = value.substring(value.lastIndexOf("/") + 1);
-        if (value.indexOf(".desktop") !== -1) value = value.substring(0, value.indexOf(".desktop"));
-        value = value.replace(/[-_]/g, " ");
-        return value.charAt(0).toUpperCase() + value.slice(1);
     }
 
     function userNameForIndex(index) {

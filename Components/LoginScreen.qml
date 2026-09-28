@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "../Utils/cleanName.js" as Utils
 
 Item {
     id: loginScreen
@@ -27,9 +28,15 @@ Item {
     }
 
     function syncKeyboardState() {
-        if (typeof keyboard === "undefined") return;
-        if (typeof keyboard.capsLock !== "undefined") loginScreen.capsLockOn = keyboard.capsLock === true;
-        if (typeof keyboard.numLock !== "undefined") loginScreen.numLockOn = keyboard.numLock === true;
+        if (typeof keyboard === "undefined") {
+            return;
+        }
+        if (typeof keyboard.capsLock !== "undefined") {
+            loginScreen.capsLockOn = keyboard.capsLock === true;
+        }
+        if (typeof keyboard.numLock !== "undefined") {
+            loginScreen.numLockOn = keyboard.numLock === true;
+        }
     }
 
     function updateLockState(event) {
@@ -66,18 +73,10 @@ Item {
         var value = realName ? realName : (name ? name : (edit ? edit : display));
         var result = value ? value.toString() : "";
 
-        if ((!result || result === "User") && sddm.lastUser) return sddm.lastUser.toString();
+        if ((!result || result === "User") && sddm.lastUser) {
+            return sddm.lastUser.toString();
+        }
         return result || "User";
-    }
-
-    function cleanName(name) {
-        if (!name) return "";
-        var value = name.toString();
-        if (value.endsWith("/")) value = value.substring(0, value.length - 1);
-        if (value.indexOf("/") !== -1) value = value.substring(value.lastIndexOf("/") + 1);
-        if (value.indexOf(".desktop") !== -1) value = value.substring(0, value.indexOf(".desktop"));
-        value = value.replace(/[-_]/g, " ");
-        return value.charAt(0).toUpperCase() + value.slice(1);
     }
 
     Item {
@@ -194,7 +193,9 @@ Item {
                                 var sourcePath = Qt.resolvedUrl("../Assets/avatar.png");
                                 if (loginScreen.usersModel && loginScreen.usersModel.count > 0) {
                                     var icon = loginScreen.usersModel.data(loginScreen.usersModel.index(loginScreen.userIndex, 0), Qt.UserRole + 3);
-                                    if (icon && icon.toString().match(/\.(jpg|jpeg|png|bmp|webp|svg)$/i)) sourcePath = icon.toString();
+                                    if (icon && icon.toString().match(/\.(jpg|jpeg|png|bmp|webp|svg)$/i)) {
+                                        sourcePath = icon.toString();
+                                    }
                                 }
                                 source = sourcePath;
                             }
@@ -228,9 +229,9 @@ Item {
                         anchors.centerIn: parent
                         text: {
                             if (loginScreen.usersModel && loginScreen.usersModel.count > 0) {
-                                return loginScreen.cleanName(loginScreen.userNameForIndex(loginScreen.userIndex)) + (loginScreen.usersModel.count > 1 ? " ▾" : "");
+                                return Utils.cleanName(loginScreen.userNameForIndex(loginScreen.userIndex)) + (loginScreen.usersModel.count > 1 ? " ▾" : "");
                             }
-                            return loginScreen.cleanName(sddm.lastUser ? sddm.lastUser : "User");
+                            return Utils.cleanName(sddm.lastUser ? sddm.lastUser : "User");
                         }
                         color: "white"
                         font.pixelSize: 24

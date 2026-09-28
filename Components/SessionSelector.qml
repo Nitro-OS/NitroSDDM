@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import "../Utils/cleanName.js" as Utils
 
 Rectangle {
     id: sessionSelector
@@ -42,7 +43,7 @@ Rectangle {
                     var fallback = sessionSelector.sessionsModel.data(modelIndex, Qt.UserRole + 2);
                     var display = sessionSelector.sessionsModel.data(modelIndex, Qt.DisplayRole);
                     var value = name ? name.toString() : (fallback ? fallback.toString() : (display ? display.toString() : "Session " + (sessionSelector.currentIndex + 1)));
-                    return sessionSelector.cleanName(value) + (sessionSelector.sessionsModel.count > 1 ? " ▾" : "");
+                    return Utils.cleanName(value) + (sessionSelector.sessionsModel.count > 1 ? " ▾" : "");
                 }
                 return "Hyprland";
             }
@@ -59,13 +60,4 @@ Rectangle {
         onClicked: sessionSelector.selectionRequested()
     }
 
-    function cleanName(name) {
-        if (!name) return "";
-        var value = name.toString();
-        if (value.endsWith("/")) value = value.substring(0, value.length - 1);
-        if (value.indexOf("/") !== -1) value = value.substring(value.lastIndexOf("/") + 1);
-        if (value.indexOf(".desktop") !== -1) value = value.substring(0, value.indexOf(".desktop"));
-        value = value.replace(/[-_]/g, " ");
-        return value.charAt(0).toUpperCase() + value.slice(1);
-    }
 }
