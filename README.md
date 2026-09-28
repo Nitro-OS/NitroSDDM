@@ -4,9 +4,9 @@ NitroSDDM is a Qt 6 SDDM theme for Nitro OS. It provides a keyboard-friendly
 login screen with session selection, power controls, custom fonts, and a
 configurable background.
 
-<img width="1896" height="1023" alt="image" src="https://github.com/user-attachments/assets/dcbba95d-c0b6-47e7-92ac-ceec127f98b6" />
+<img width="1922" height="1077" alt="image" src="https://github.com/user-attachments/assets/e3b7ffd6-3ee5-41ca-914f-18119f92ab5a" />
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/abd4a173-0f20-475b-9afd-9e0b55deb1b9" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/edae0008-60f0-46e5-954d-d2beefebe571" />
 
 ## Requirements
 
